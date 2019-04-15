@@ -31,36 +31,34 @@
 </div>
 <script type="text/javascript">
 //<!--
-var EnRectangle = [0,1,2,3,4,5,6,7,8];
+var EnRectangle = [0,1,2,3,4,5,6,7];
 var myGraph = new Graphics("Convas", "#0000ff");
 var Properties = document.getElementById("Properties")
-var state = "Rectangel"
+var state = "Rectangle"
 //change tabs(wip)
 function change(result){
     var Pchilds = Array.from(Properties.childNodes).filter(child => child.nodeType==1);
-    for(var i=0;i <Pchilds.length;i++){
-        Pchilds[i].hidden=true;
-    }
-    state=result
-    switch(result){
-        case "Rectangle":
-        for (let i of EnRectangle){
-            Pchilds[i].hidden=false;
+    Pchilds.forEach(e => e.hidden= true)
+    state = result
+        switch(result){
+            case "Rectangle":
+                for (let i of EnRectangle){
+                    Pchilds[i].hidden=false;
+                }
+                break;
+            case "Circle":
+                for(let i of EnCircle){
+                    Pchilds[i].hidden=false;
+                }
+                break;
         }
-        break;
-        case "Circle":
-        for(let i of EnCircle){
-            Pchilds[i].hidden=false;
-        }
-        break;
-    }
 }
 
 function DRAW(){
-    var f =document.forms[0];
+    var f = document.forms[0];
 
     switch(state){ 
-        case "Rectangel":
+        case "Rectangle":
             //Draw Rectangle with properties
             myGraph.div(parseInt(f.dp_x1.value),parseInt(f.dp_y1.value),
                     parseInt(f.dp_w1.value), parseInt(f.dp_h1.value),
