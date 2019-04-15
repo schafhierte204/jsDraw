@@ -10,6 +10,7 @@
 <table cellspacing="0">
 <tr align="right">
 <td><input type="button" value="Rectangle" onclick="change(&quot;Rectangle&quot;)"></td>
+<td><input type="button" value="Circle" onclick="change(&quot;Circle&quot;)"></td>
 </tr>
 <tr align="right" id="Properties">
 <td id="opsx">x1<input name="dp_x1" type="text" size="5" maxlength="4" value="2">&nbsp;</td>
@@ -32,6 +33,7 @@
 <script type="text/javascript">
 //<!--
 var EnRectangle = [0,1,2,3,4,5,6,7];
+var EnCircle = [0,1,2,4,5,6];
 var myGraph = new Graphics("Convas", "#0000ff");
 var Properties = document.getElementById("Properties")
 var state = "Rectangle"
@@ -65,6 +67,9 @@ function DRAW(){
                     f.dp_co.value, parseInt(f.dp_bw.value), f.dp_bcol.value, parseInt(f.dp_brad.value));
             break;
         case "Circle":
+            myGraph.circle( parseInt(f.dp_x1.value), parseInt(f.dp_y1.value),
+                    parseInt(f.dp_w1.value), f.dp_co.value, parseInt(f.dp_bw.value),
+                    f.dp_bcol.value);
             break;
     }
 }

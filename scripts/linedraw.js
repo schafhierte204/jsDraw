@@ -21,6 +21,11 @@ function _div(x, y, wi, hight, co, bwi, bcol,brad){
     this.Nodes.push(Node); 
 }
 
+//draw a circle
+function _circle(x, y, rad, col, bwi,bcol){
+    this.div(x, y, rad, rad, col, bwi, bcol, rad/2);
+}
+
 //draw a line (wip)
 function _drawLine(th,col,dir){
 }
@@ -37,6 +42,7 @@ function _removeNodes(){
 function Graphics(ev, DefaultColor){
     this.Nodes = new Array();
     this.div = _div;
+    this.circle = _circle;
     this.remove = _removeNodes;
     this.Canvas = document.getElementById(ev);
 }
