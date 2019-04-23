@@ -1,83 +1,83 @@
 <!DOCTYPE=html>
 <html>
-<head>
-<meta charset=utf-8>
-<title>Line Drawer</title>
-<script src="./jsDraw.js"></script>
-</head>
-<body>
-<form action="" id="formular">
-<table cellspacing="0">
-<tr align="right">
-<td><input type="button" value="Rectangle" onclick="change(&quot;Rectangle&quot;)"></td>
-<td><input type="button" value="Circle" onclick="change(&quot;Circle&quot;)"></td>
-</tr>
-<tr align="right" id="Properties">
-<td id="opsx">x1<input name="dp_x1" type="text" size="5" maxlength="4" value="2">&nbsp;</td>
-<td>y1<input name="dp_y1" type="text" size="5" maxlength="4" value="2">&nbsp;</td>
-<td>Breite:<input name="dp_w1" type="text" size="5" maxlength="4" value="2">&nbsp;</td>
-<td>Höhe:<input name="dp_h1" type="text" size="5" maxlength="4" value="2">&nbsp;</td>
-<td>Farbe:<input name="dp_co" type="color" value="#ff0000">
-<td>RandBreite:<input name="dp_bw" type="text" size="5" maxlength="4" value="0">&nbsp;</td>
-<td>RandFarbe:<input name="dp_bcol" type="color" value="#000000">
-<td>RandAbrundung:<input name="dp_brad" type="text" size="5" maxlength="4" value="0">&nbsp;</td>
-</tr>
-<tr align="right">
-<td><input type="button" value="remove()" onclick="remove()"></td>
-<td><input type="button" value="draw" onclick="DRAW()"</td>
-</tr>
-</table>
-</form>
-<div id="Convas" style="position:relative;width:100%;height:20000px">
-</div>
-<script type="text/javascript">
-//<!--
-var EnRectangle = [0,1,2,3,4,5,6,7];
-var EnCircle = [0,1,2,4,5,6];
-var myGraph = new Graphics("Convas", "#0000ff");
-var Properties = document.getElementById("Properties")
-var state = "Rectangle"
-//change tabs(wip)
-function change(result){
-    var Pchilds = Array.from(Properties.childNodes).filter(child => child.nodeType==1);
-    Pchilds.forEach(e => e.hidden= true)
-    state = result
-        switch(result){
-            case "Rectangle":
-                for (let i of EnRectangle){
-                    Pchilds[i].hidden=false;
+    <head>
+        <meta charset=utf-8>
+        <title>Line Drawer</title>
+        <script src="./jsDraw.js"></script>
+    </head>
+    <body>
+        <form action="" id="formular">
+            <table cellspacing="0">
+                <tr align="right" style="border: solid black 10px">
+                    <td><input type="button" value="Rectangle" onclick="change(&quot;Rectangle&quot;)"></td>
+                    <td><input type="button" value="Circle" onclick="change(&quot;Circle&quot;)"></td>
+                </tr>
+                <tr align="right" id="Properties">
+                    <td id="opsx">x1<input name="dp_x1" type="text" size="5" maxlength="4" value="2">&nbsp;</td>
+                    <td>y1<input name="dp_y1" type="text" size="5" maxlength="4" value="2">&nbsp;</td>
+                    <td>Breite:<input name="dp_w1" type="text" size="5" maxlength="4" value="2">&nbsp;</td>
+                    <td>Höhe:<input name="dp_h1" type="text" size="5" maxlength="4" value="2">&nbsp;</td>
+                    <td>Farbe:<input name="dp_co" type="color" value="#ff0000"></td>
+                    <td>RandBreite:<input name="dp_bw" type="text" size="5" maxlength="4" value="0">&nbsp;</td>
+                    <td>RandFarbe:<input name="dp_bcol" type="color" value="#000000"></td>
+                    <td>RandAbrundung:<input name="dp_brad" type="text" size="5" maxlength="4" value="0">&nbsp;</td>
+                </tr>
+                <tr align="right">
+                    <td><input type="button" value="remove()" onclick="remove()"></td>
+                    <td><input type="button" value="draw" onclick="DRAW()"</td>
+                </tr>
+            </table>
+        </form>
+        <div id="Convas" style="position:relative;width:100%;height:20000px">
+        </div>
+        <script type="text/javascript">
+            //<!--
+            var EnRectangle = [0,1,2,3,4,5,6,7];
+            var EnCircle = [0,1,2,4,5,6];
+            var myGraph = new Graphics("Convas", "#0000ff");
+            var Properties = document.getElementById("Properties")
+            var state = "Rectangle"
+            //change tabs(wip)
+            function change(result){
+                var Pchilds = Array.from(Properties.childNodes).filter(child => child.nodeType==1);
+                Pchilds.forEach(e => e.hidden= true)
+                state = result
+                switch(result){
+                    case "Rectangle":
+                        for (let i of EnRectangle){
+                            Pchilds[i].hidden=false;
+                        }
+                        break;
+                    case "Circle":
+                        for(let i of EnCircle){
+                            Pchilds[i].hidden=false;
+                        }
+                        break;
                 }
-                break;
-            case "Circle":
-                for(let i of EnCircle){
-                    Pchilds[i].hidden=false;
+            }
+
+            function DRAW(){
+                var f = document.forms[0];
+
+                switch(state){ 
+                    case "Rectangle":
+                        //Draw Rectangle with properties
+                        myGraph.div(parseInt(f.dp_x1.value),parseInt(f.dp_y1.value),
+                            parseInt(f.dp_w1.value), parseInt(f.dp_h1.value),
+                            f.dp_co.value, parseInt(f.dp_bw.value), f.dp_bcol.value, parseInt(f.dp_brad.value));
+                        break;
+                    case "Circle":
+                        myGraph.circle( parseInt(f.dp_x1.value), parseInt(f.dp_y1.value),
+                            parseInt(f.dp_w1.value), f.dp_co.value, parseInt(f.dp_bw.value),
+                            f.dp_bcol.value);
+                        break;
                 }
-                break;
-        }
-}
+            }
+            function remove(){
+                myGraph.remove();
+            }
 
-function DRAW(){
-    var f = document.forms[0];
-
-    switch(state){ 
-        case "Rectangle":
-            //Draw Rectangle with properties
-            myGraph.div(parseInt(f.dp_x1.value),parseInt(f.dp_y1.value),
-                    parseInt(f.dp_w1.value), parseInt(f.dp_h1.value),
-                    f.dp_co.value, parseInt(f.dp_bw.value), f.dp_bcol.value, parseInt(f.dp_brad.value));
-            break;
-        case "Circle":
-            myGraph.circle( parseInt(f.dp_x1.value), parseInt(f.dp_y1.value),
-                    parseInt(f.dp_w1.value), f.dp_co.value, parseInt(f.dp_bw.value),
-                    f.dp_bcol.value);
-            break;
-    }
-}
-function remove(){
-    myGraph.remove();
-}
-
-//--!>
-</script>
-</body>
+            //--!>
+        </script>
+    </body>
 </html>
