@@ -4,6 +4,7 @@
         <meta charset=utf-8>
         <title>Line Drawer</title>
         <script src="./jsDraw.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     </head>
     <body>
         <form action="" id="formular">
@@ -32,6 +33,9 @@
         </div>
         <script type="text/javascript">
             //<!--
+            var offset=$("#Canvas").offset()
+            $("#Canvas").click(function (e){
+                j
             var EnRectangle = [0,1,2,3,4,5,6,7];
             var EnCircle = [0,1,2,4,5,6];
             var myGraph = new Graphics("Canvas", "#0000ff");
@@ -56,7 +60,7 @@
                 }
             }
 
-            function DRAW(){
+            function DRAW(x,y){
                 var f = document.forms[0];
 
                 switch(state){ 
