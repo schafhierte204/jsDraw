@@ -14,8 +14,6 @@
                     <td><input type="button" value="Circle" onclick="change(&quot;Circle&quot;)"></td>
                 </tr>
                 <tr align="right" id="Properties">
-                    <td id="opsx">x1<input name="dp_x1" type="text" size="5" maxlength="4" value="2">&nbsp;</td>
-                    <td>y1<input name="dp_y1" type="text" size="5" maxlength="4" value="2">&nbsp;</td>
                     <td>Breite:<input name="dp_w1" type="text" size="5" maxlength="4" value="2">&nbsp;</td>
                     <td>Höhe:<input name="dp_h1" type="text" size="5" maxlength="4" value="2">&nbsp;</td>
                     <td>Farbe:<input name="dp_co" type="color" value="#ff0000"></td>
@@ -25,7 +23,6 @@
                 </tr>
                 <tr align="right">
                     <td><input type="button" value="remove()" onclick="remove()"></td>
-                    <td><input type="button" value="draw" onclick="DRAW()"</td>
                 </tr>
             </table>
         </form>
@@ -34,10 +31,15 @@
         <script type="text/javascript">
             //<!--
             var offset=$("#Canvas").offset()
-            $("#Canvas").click(function (e){
-                j
-            var EnRectangle = [0,1,2,3,4,5,6,7];
-            var EnCircle = [0,1,2,4,5,6];
+            $("#Canvas").mousedown(function (e){
+                //get mouseposition realtive to canvas
+                let x = e.pageX - offset.left;
+                let y = e.pageY - offset.top;
+                //draw object
+                DRAW(x,y);
+            })
+            var EnRectangle = [0,1,2,3,4,5];
+            var EnCircle = [0,2,3,4];
             var myGraph = new Graphics("Canvas", "#0000ff");
             var Properties = document.getElementById("Properties")
             var state = "Rectangle"
@@ -66,12 +68,12 @@
                 switch(state){ 
                     case "Rectangle":
                         //Draw Rectangle with properties
-                        myGraph.div(parseInt(f.dp_x1.value),parseInt(f.dp_y1.value),
+                        myGraph.div(x,y,
                             parseInt(f.dp_w1.value), parseInt(f.dp_h1.value),
                             f.dp_co.value, parseInt(f.dp_bw.value), f.dp_bcol.value, parseInt(f.dp_brad.value));
                         break;
                     case "Circle":
-                        myGraph.circle( parseInt(f.dp_x1.value), parseInt(f.dp_y1.value),
+                        myGraph.circle( x, y,
                             parseInt(f.dp_w1.value), f.dp_co.value, parseInt(f.dp_bw.value),
                             f.dp_bcol.value);
                         break;
