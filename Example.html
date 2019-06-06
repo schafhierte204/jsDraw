@@ -5,12 +5,46 @@
         <title>Line Drawer</title>
         <script src="./jsDraw.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    </head>
+    <body>
+        <form action="" id="formular">
+            <table cellspacing="0">
+                <tr align="right" style="border: solid black 10px">
+                    <td><input type="button" value="Rectangle" onclick="change(&quot;Rectangle&quot;)"></td>
+                    <td><input type="button" value="Circle" onclick="change(&quot;Circle&quot;)"></td>
+                </tr>
+                <tr align="right" id="Properties">
+                    <td>Farbe:<input name="dp_co" type="color" value="#ff0000" onchange="changeColor()"></td>
+                    <td>RandBreite:<input name="dp_bw" type="text" size="5" maxlength="4" value="0" onchange="changeBorderThickness()">&nbsp;</td>
+                    <td>RandFarbe:<input name="dp_bcol" type="color" value="#000000" onchange="changeBorderColor()"></td>
+                    <td>RandAbrundung:<input name="dp_brad" type="text" size="5" maxlength="4" value="0" onchange="changeBorderRadius()">&nbsp;</td>
+                </tr>
+                <tr align="right">
+                    <td><input type="button" value="remove()" onclick="myGraph.remove()"></td>
+                </tr>
+            </table>
+        </form>
+        <div id="Canvas" style="position:relative;width:100%;height:20000px;border:solid black 2px">
+        </div>
         <script type="text/javascript">
             //<!--
+            var f = document.forms[0];
             var EnRectangle = [0,1,2,3,4,5];
             var EnCircle = [0,2,3,4];
             var myGraph = new Graphics($("#Canvas"), "#0000ff");
             var Properties = document.getElementById("Properties")
+            function changeColor(){
+                myGraph.setColor(f.dp_co.value);
+            }
+            function changeBorderThickness(){
+                myGraph.setBorderWidth(parseInt(f.dp_bw.value));
+            }
+            function changeBorderRadius(){
+                myGraph.setBorderRadius(parseInt(f.dp_brad.value)); 
+            }
+            function changeBorderColor(){
+                myGraph.setBorderColor(f.dp_bcol.value);
+            }
             //change tabs
             function change(result){
                 var Pchilds = Array.from(Properties.childNodes).filter(child => child.nodeType==1);
@@ -31,28 +65,5 @@
             }
             //--!>
         </script>
-    </head>
-    <body>
-        <form action="" id="formular">
-            <table cellspacing="0">
-                <tr align="right" style="border: solid black 10px">
-                    <td><input type="button" value="Rectangle" onclick="change(&quot;Rectangle&quot;)"></td>
-                    <td><input type="button" value="Circle" onclick="change(&quot;Circle&quot;)"></td>
-                </tr>
-                <tr align="right" id="Properties">
-                    <td>Breite:<input name="dp_w1" type="text" size="5" maxlength="4" value="2">&nbsp;</td>
-                    <td>Höhe:<input name="dp_h1" type="text" size="5" maxlength="4" value="2">&nbsp;</td>
-                    <td>Farbe:<input name="dp_co" type="color" value="#ff0000"></td>
-                    <td>RandBreite:<input name="dp_bw" type="text" size="5" maxlength="4" value="0">&nbsp;</td>
-                    <td>RandFarbe:<input name="dp_bcol" type="color" value="#000000"></td>
-                    <td>RandAbrundung:<input name="dp_brad" type="text" size="5" maxlength="4" value="0">&nbsp;</td>
-                </tr>
-                <tr align="right">
-                    <td><input type="button" value="remove()" onclick="myGraph.remove()"></td>
-                </tr>
-            </table>
-        </form>
-        <div id="Canvas" style="position:relative;width:100%;height:20000px;border:solid black 2px">
-        </div>
     </body>
 </html>
