@@ -1,4 +1,5 @@
 var _currentNode = null;
+var _state = "Rectangle";
 var _CANVAS_OFFSET;
 //starting position
 var _xStart = 0;
@@ -6,6 +7,10 @@ var _yStart = 0;
 //nodes
 var _Nodes = new Array();
 var _color;
+function _setState(s){
+    _state=s;
+}
+
 function _setColor(c){
     _color = c;
 }
@@ -51,19 +56,37 @@ function _startRect(){
 }
 //called when moving over the canvas
 function _drag(e){
+    //filter out when not drawing
     if(_currentNode == null) {return;}
+    //calculate height ang width
+    var width = e.pageX - _CANVAS_OFFSET.left - _xStart;
+    var height = e.pageY -_CANVAS_OFFSET.top - _yStart;
+    //call repensetive function
+    switch(_state){
+        case "Rectangle":
+            _dragRectangle(width, height);
+            break;
+        case "Circle":
+            _dragcircle(width);
+            break;
+    }
+}
+
+function _dragRectangle(width, height){
     //chage with and height
-    _currentNode.style.width= e.pageX - _CANVAS_OFFSET.left -_xStart
-    _currentNode.style.height= e.pageY - _CANVAS_OFFSET.top -_yStart
+    _currentNode.style.width= width+"px";
+    _currentNode.style.height= height+"px";
+}
+
+function _dragcircle(width){
+    _currentNode.style.width= width+"px";
+    _currentNode.style.height = width+"px";
+    _currentNode.style.borderRadius = width/2+"px";
 }
 
 //end drawing
 function _endDraw(){
     _currentNode=null
-}
-//draw a circle
-function _circle(x, y, rad, col, bwi,bcol){
-    this.div(x, y, rad, rad, col, bwi, bcol, rad/2);
 }
 
 //draw a line (wip)
@@ -86,8 +109,8 @@ function Graphics(canvas, Color, borderRadius, borderColor, borderThickness){
     this.setBorderColor = _setBorderColor;
     this.setBorderWidth = _setBorderWidth;
     this.setColor = _setColor;
+    this.setState = _setState;
     _borderRadius = borderRadius;
-    this.state = "Rectangle";
     _color = Color;
     _borderColor = borderColor;
     _borderWidth = borderThickness;
