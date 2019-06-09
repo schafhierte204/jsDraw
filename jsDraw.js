@@ -49,6 +49,7 @@ function _startRect(){
     _Canvas.append(_currentNode);
     _Nodes.push(_currentNode);
 }
+//called when moving over the canvas
 function _drag(e){
     if(_currentNode == null) {return;}
     //chage with and height
@@ -79,29 +80,26 @@ function _removeNodes(){
     _Nodes = new Array();
 }
 //Main Function
-function Graphics(canvas, DefaultColor){
+function Graphics(canvas, Color, borderRadius, borderColor, borderThickness){
+    //initialize Variables
     this.setBorderRadius = _setBorderRadius;
     this.setBorderColor = _setBorderColor;
     this.setBorderWidth = _setBorderWidth;
     this.setColor = _setColor;
-    _borderRadius = 0;
-    this.borderRadius = _borderRadius;
+    _borderRadius = borderRadius;
     this.state = "Rectangle";
-    _color = DefaultColor;
-    this.color = _color;
-    _borderColor = DefaultColor;
-    this.borderColor = _borderColor;
-    _borderWidth = 0;
-    this.borderWidth = _borderWidth;
-    this.Nodes = _Nodes;
+    _color = Color;
+    _borderColor = borderColor;
+    _borderWidth = borderThickness;
     this.remove = _removeNodes;
     _Canvas = canvas;
     this.StartDraw = _startDraw;
     this.Drag = _drag;
     this.EndDraw = _endDraw;
+    _CANVAS_OFFSET = canvas.offset();
+    //create events
     canvas.mousedown(this.StartDraw);
     canvas.mousemove(this.Drag);
     canvas.mouseup(this.EndDraw);
-    _CANVAS_OFFSET = canvas.offset();
 }
 

@@ -7,12 +7,13 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     </head>
     <body>
-        <form action="" id="formular">
+        <form id="formular" style="border:solid black 2px">
             <table cellspacing="0">
-                <tr align="right" style="border: solid black 10px">
+                <!-- <tr align="right" style="border: solid black 10px">
                     <td><input type="button" value="Rectangle" onclick="change(&quot;Rectangle&quot;)"></td>
                     <td><input type="button" value="Circle" onclick="change(&quot;Circle&quot;)"></td>
-                </tr>
+                    </tr>
+                -->
                 <tr align="right" id="Properties">
                     <td>Farbe:<input name="dp_co" type="color" value="#ff0000" onchange="changeColor()"></td>
                     <td>RandBreite:<input name="dp_bw" type="text" size="5" maxlength="4" value="0" onchange="changeBorderThickness()">&nbsp;</td>
@@ -20,7 +21,7 @@
                     <td>RandAbrundung:<input name="dp_brad" type="text" size="5" maxlength="4" value="0" onchange="changeBorderRadius()">&nbsp;</td>
                 </tr>
                 <tr align="right">
-                    <td><input type="button" value="remove()" onclick="myGraph.remove()"></td>
+                    <td><input type="button" value="remove All" onclick="myGraph.remove()"></td>
                 </tr>
             </table>
         </form>
@@ -31,7 +32,9 @@
             var f = document.forms[0];
             var EnRectangle = [0,1,2,3,4,5];
             var EnCircle = [0,2,3,4];
-            var myGraph = new Graphics($("#Canvas"), "#0000ff");
+            //create grafic object
+            var myGraph = new Graphics($("#Canvas"), f.dp_co.value, parseInt(f.dp_brad.value), f.dp_bcol.value, parseInt(f.dp_bw.value));
+
             var Properties = document.getElementById("Properties")
             function changeColor(){
                 myGraph.setColor(f.dp_co.value);
@@ -45,8 +48,8 @@
             function changeBorderColor(){
                 myGraph.setBorderColor(f.dp_bcol.value);
             }
-            //change tabs
-            function change(result){
+            //change tabs (wip)
+            /* function change(result){
                 var Pchilds = Array.from(Properties.childNodes).filter(child => child.nodeType==1);
                 Pchilds.forEach(e => e.hidden= true)
                 myGraph.state = result
@@ -63,7 +66,8 @@
                         break;
                 }
             }
-            //--!>
+             */
+            //-->
         </script>
     </body>
 </html>
