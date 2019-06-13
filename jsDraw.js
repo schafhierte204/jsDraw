@@ -1,16 +1,23 @@
+//Drawing object
 var _currentNode = null;
+//current Mode
 var _state = "Rectangle";
+function _setState(s){
+    _state=s;
+}
+//current Image
+var _img = null;
+function _setImg(i){
+    _img=i;
+}
 var _CANVAS_OFFSET;
 //starting position
 var _xStart = 0;
 var _yStart = 0;
-//nodes
+//Draw Rectanbgles
 var _Nodes = new Array();
+//current color
 var _color;
-function _setState(s){
-    _state=s;
-}
-
 function _setColor(c){
     _color = c;
 }
@@ -29,13 +36,43 @@ function _setBorderColor(c){
 }
 //canvas
 var _Canvas;
+//content image
 
 //set starting position
 function _startDraw(e){
     _xStart = e.pageX - _CANVAS_OFFSET.left;
     _yStart = e.pageY - _CANVAS_OFFSET.top;
-    _startRect()
+    switch(_state){
+        case "Rectangle":
+        case "Circle":
+            _startRect();
+            break;
+        case "Image":
+            _startImg();
+            break;
+    }
+
 }
+function _startImg(){
+    _currentNode = document.createElement("img");
+    //set Image
+    _currentNode.src=_img;
+    _currentNode.height="auto";
+    //position
+    _currentNode.style.position = "absolute";
+    _currentNode.style.left= _xStart+"px";
+    _currentNode.style.top= _yStart+"px";
+    //border
+    _currentNode.style.borderStyle="solid";
+    _currentNode.style.borderWidth=_borderWidth+"px";
+    _currentNode.style.borderRadius=_borderRadius+"px";
+    //colors
+    _currentNode.style.borderColor=_borderColor;
+
+    _Canvas.append(_currentNode);
+    _Nodes.push(_currentNode);
+}
+//create drawn element
 function _startRect(){
     _currentNode = document.createElement("div");
 
@@ -43,11 +80,11 @@ function _startRect(){
     _currentNode.style.position = "absolute";
     _currentNode.style.left = _xStart+"px";
     _currentNode.style.top = _yStart+"px";
-    //rand
+    //border
     _currentNode.style.borderStyle="solid";
     _currentNode.style.borderWidth=_borderWidth+"px";
     _currentNode.style.borderRadius=_borderRadius+"px";
-    //farben
+    //colors
     _currentNode.style.background = _color;
     _currentNode.style.borderColor=_borderColor;
 
@@ -58,7 +95,7 @@ function _startRect(){
 function _drag(e){
     //filter out when not drawing
     if(_currentNode == null) {return;}
-    //calculate height ang width
+    //calculate height and width
     var width = e.pageX - _CANVAS_OFFSET.left - _xStart;
     var height = e.pageY -_CANVAS_OFFSET.top - _yStart;
     //call repensetive function
@@ -69,6 +106,8 @@ function _drag(e){
         case "Circle":
             _dragcircle(width);
             break;
+        case "Image":
+            _dragImg(width);
     }
 }
 
@@ -82,6 +121,10 @@ function _dragcircle(width){
     _currentNode.style.width= width+"px";
     _currentNode.style.height = width+"px";
     _currentNode.style.borderRadius = width/2+"px";
+}
+
+function _dragImg(width){
+    _currentNode.style.width= width+"px";
 }
 
 //end drawing
@@ -105,11 +148,13 @@ function _removeNodes(){
 //Main Function
 function Graphics(canvas, Color, borderRadius, borderColor, borderThickness){
     //initialize Variables
+    this.state="Rectangle";
     this.setBorderRadius = _setBorderRadius;
     this.setBorderColor = _setBorderColor;
     this.setBorderWidth = _setBorderWidth;
     this.setColor = _setColor;
     this.setState = _setState;
+    this.setImage = _setImg;
     _borderRadius = borderRadius;
     _color = Color;
     _borderColor = borderColor;
@@ -121,8 +166,8 @@ function Graphics(canvas, Color, borderRadius, borderColor, borderThickness){
     this.EndDraw = _endDraw;
     _CANVAS_OFFSET = canvas.offset();
     //create events
-    canvas.mousedown(this.StartDraw);
-    canvas.mousemove(this.Drag);
+    canvas.mousedown(function(e) {_startDraw(e)});
+    canvas.mousemove(function(e) {_drag(e)});
     canvas.mouseup(this.EndDraw);
 }
 

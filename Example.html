@@ -6,9 +6,9 @@
         <script src="./jsDraw.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
         <style>
-        .active{
-            border-color:blue;
-        }
+.active{
+    border-color:blue;
+}
         </style>
     </head>
     <body>
@@ -17,12 +17,14 @@
                 <tr align="right" style="border: solid black 10px">
                     <td><input type="button" value="Rectangle" onclick="change(&quot;Rectangle&quot;)"></td>
                     <td><input type="button" value="Circle" onclick="change(&quot;Circle&quot;)"></td>
+                    <td><input type="button" value="Image" onclick="change(&quot;Image&quot)"></td>
                 </tr>
                 <tr align="right" id="Properties">
-                    <td>Farbe:<input name="dp_co" type="color" value="#ff0000" onchange="changeColor()"></td>
-                    <td>RandBreite:<input name="dp_bw" type="text" size="5" maxlength="4" value="0" onchange="changeBorderThickness()">&nbsp;</td>
-                    <td>RandFarbe:<input name="dp_bcol" type="color" value="#000000" onchange="changeBorderColor()"></td>
-                    <td>RandAbrundung:<input name="dp_brad" type="text" size="5" maxlength="4" value="0" onchange="changeBorderRadius()">&nbsp;</td>
+                    <td id ="Color">Farbe:<input name="dp_co" type="color" value="#ff0000" onchange="changeColor()"></td>
+                    <td id ="BorderThgickness">RandBreite:<input name="dp_bw" type="text" size="5" maxlength="4" value="0" onchange="changeBorderThickness()">&nbsp;</td>
+                    <td id ="BorderColor">RandFarbe:<input name="dp_bcol" type="color" value="#000000" onchange="changeBorderColor()"></td>
+                    <td id ="BorderRadius">RandAbrundung:<input name="dp_brad" type="text" size="5" maxlength="4" value="0" onchange="changeBorderRadius()">&nbsp;</td>
+                    <td id ="img" >Bild:<input name="img" type="file" onchange="changeImage()">&nbsp;</td>
                 </tr>
                 <tr align="right">
                     <td><input type="button" value="remove All" onclick="myGraph.remove()"></td>
@@ -37,7 +39,8 @@
             var f = document.forms[0];
             var EnRectangle = [0,1,2,3,4,5];
             var EnCircle = [0,2,3,4];
-            $("Canvas").on('dragstart', function(event) { event.preventDefault(); });
+            $("#img").hide();
+            $("#Canvas").on('dragstart', function(event) { event.preventDefault(); });
             //create grafic object
             var myGraph = new Graphics($("#Canvas"), f.dp_co.value, parseInt(f.dp_brad.value), f.dp_bcol.value, parseInt(f.dp_bw.value));
 
@@ -54,23 +57,23 @@
             function changeBorderColor(){
                 myGraph.setBorderColor(f.dp_bcol.value);
             }
+            function changeImage(){
+                myGraph.setImage(f.img.value);
+            }
             //change tabs (wip)
             function change(result){
-                //   var Pchilds = Array.from(Properties.childNodes).filter(child => child.nodeType==1);
-                //  Pchilds.forEach(e => e.hidden= true)
                 myGraph.setState(result);
-                /*    switch(result){
-                    case "Rectangle":
-                        for (let i of EnRectangle){
-                            Pchilds[i].hidden=false;
-                        }
-                        break;
+                switch(result){
                     case "Circle":
-                        for(let i of EnCircle){
-                            Pchilds[i].hidden=false;
-                        }
+                    case "Rectangle":
+                        $("#img").hide();
+                        $("#Color").show();
                         break;
-                }*/
+                    case "Image":
+                        $("#Color").hide();
+                        $("#img").show();
+                        break;
+                }
             }
             //-->
         </script>
